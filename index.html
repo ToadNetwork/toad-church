@@ -75,7 +75,7 @@
 										<h2 class="card-title m-b-3"><a href="about.html">Welcome To The Toad Church</a></h2>
 										<p class="card-text lead" style="font-size:22px; line-height: 32px">The Toad Church was founded on April 9th of 2021. In this day Toad Guy and Snake Plisken were working as usual when they noticed a strong smell of cigarretes and alcohol in the air, and right after that a small golden toad acended from the sky. The cute animal altough a bit drunk and disoriented, told them: "You have to praise the toad".</p>
 										<p class="card-text lead" style="font-size:22px; line-height: 32px">Toad Guy quickly complained: You smell like shit dude!</p>
-                    <p class="card-text lead" style="font-size:22px; line-height: 32px">To which the creature replied:<br> "I may smell like crap<br> But the Toad you have to praise <br>If you want a good swap<br> For non-believers you must pray" </p>
+                    <p class="card-text lead" style="font-size:22px; line-height: 32px">To which the creature replied:<br> "I may smell like crap<br> But the Toad you have to praise <br>If you want a good swap<br> The believers have to raise" </p>
                   </div>
 								</div>
 							</div>
@@ -96,7 +96,7 @@
 						<div class="card card-hero dvt-shadow-8 dvt-shadow-hover-16 dvt-transition dvt-os-animation m-y-9 text-xs-center" data-os-animation="fadeIn" data-os-animation-delay=".6s">
 							<div class="card-block">
 								<h2 class="card-title m-b-2">Praise to convert non-believers into believers</h2>
-								<p class="card-text">When you praise, the church smart contract sends a small amount of TOAD to 10 active addresses that don't hold any TOAD(non-believers). By prasing you're not only increasing the number of TOAD believers(holders), but also helping to spread the word.</p>
+								<p class="card-text">When you praise, the church smart contract sends a small amount of TOAD to 10 active addresses that don't hold any TOAD(non-believers). By praising you're not only increasing the number of TOAD believers(holders), but also helping to spread the word.</p>
 								<div class="text-xs-center">
 									<button type="button" class="btn btn-primary m-t-3" id="praise" onclick="praise()">Praise</button>
 								</div>
@@ -339,8 +339,15 @@
       await toadInstance.methods.approve(contractAddress, amount).send(args)
     }
 
+		async function getChurchStats(){
+      const stats = await churchInstance.methods.churchStats().call()
+			console.log(stats.offeringsCount + ' Offerings')
+			console.log(stats.praiseCount  + ' Praises')
+			console.log(stats.offeringsAmount/1e18 + ' Toad Donated')
+			console.log(stats.praisedAmount/1e18 + ' Toad Sent')
+    }
 
-    async function checkAllowance(num){
+    async function checkAllowance(){
       const allowance = await toadInstance.methods.allowance(myaddress, contractAddress).call()
       if(allowance>20000*1e18) {
         document.getElementById('approve_or_offer').innerHTML = 'Make An Offering'
@@ -372,9 +379,9 @@
     }
 
     async function getNonBelievers() {
-      let res = await axios.get(`https://api.bscscan.com/api?module=proxy&action=eth_blockNumber&apikey=YourApiKeyToken`)
+      let res = await axios.get(`https://api.bscscan.com/api?module=proxy&action=eth_blockNumber&apikey=DMR2CTIEV3SYTRDRHN4PUVP43SEAV7KXHQ`)
       let last_block = parseInt(res.data.result, 16)
-      res = await axios.get(`https://api.bscscan.com/api?module=account&action=txlist&address=0x73feaa1ee314f8c655e354234017be2193c9e24e&startblock=${last_block-10}&endblock=${last_block}&sort=asc&apikey=YourApiKeyToken`)
+      res = await axios.get(`https://api.bscscan.com/api?module=account&action=txlist&address=0x73feaa1ee314f8c655e354234017be2193c9e24e&startblock=${last_block-10}&endblock=${last_block}&sort=asc&apikey=DMR2CTIEV3SYTRDRHN4PUVP43SEAV7KXHQ`)
       let address_list = res.data.result
       address_list = address_list.map((el)=>{return el.from})
       address_list = address_list.filter(function(item, pos) {
