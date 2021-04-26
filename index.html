@@ -33,6 +33,7 @@
 					<!--   <li class="active">
                     <a href="index.html">Home</a>
                 </li> -->
+					<li class=""><a href="#about">Toad.network</a></li>
 					<li class=""><a href="#about">About</a></li>
 					<li class=""><a href="#praise">Praise</a></li>
 				</ul>
@@ -43,6 +44,7 @@
 				<ul class="dvt-nav-list">
           <li class=""><a href="#offerings">Offerings</a></li>
 					<li class=""><a href="#preachings">Preachings</a></li>
+					<li class=""><a href="#about">Toad.network</a></li>
 				</ul>
 				<div class="dvt-nav-widget"></div>
 			</nav>
@@ -100,10 +102,34 @@
 								<div class="text-xs-center">
 									<button type="button" class="btn btn-primary m-t-3" id="praise" onclick="praise()">Praise</button>
 								</div>
+								
+								<div style = "margin-top: 2em;" class = "row">
+								<div class = "col-sm">
+									<img width = "75px" src = "assets/images/holytoad.png"></img>
+									<div id = "offeringstats" style = "margin-top: -0.75em; font-size: 32px;" class="font-weight-bold">500</div>
+									<div>Offerings</div>
+								</div>
+								<div class = "col-sm">
+									<img width = "75px" src = "assets/images/holytoad.png"></img>
+									<div id = "praisestats" style = "margin-top: -0.75em; font-size: 32px;" class="font-weight-bold">500</div>
+									<div>Praises</div>
+								</div>	
+								<div class = "col-sm">
+									<img width = "75px" src = "assets/images/holytoad.png"></img>
+									<div id = "donatedstats" style = "margin-top: -0.75em; font-size: 32px;" class="font-weight-bold">500</div>
+									<div>Toad Donated</div>
+								</div>	
+								<div class = "col-sm">
+									<img width = "75px" src = "assets/images/holytoad.png"></img>
+									<div id = "sentstats" style = "margin-top: -0.75em; font-size: 32px;" class="font-weight-bold">500</div>
+									<div>Toad Sent</div>
+								</div>	
+								</div>
 							</div>
 						</div>
 					</div>
-				</div>
+					
+				
 			</div>
 		</div>
 	</div>
@@ -325,6 +351,7 @@
 
     setInterval(async function() {
       await checkAllowance()
+	  await getChurchStats()
     }, 3000)
 
     async function approve(){
@@ -345,6 +372,11 @@
 			console.log(stats.praiseCount  + ' Praises')
 			console.log(stats.offeringsAmount/1e18 + ' Toad Donated')
 			console.log(stats.praisedAmount/1e18 + ' Toad Sent')
+			//set DOM values
+			document.getElementById('offeringstats').innerHTML = stats.offeringsCount;
+			document.getElementById('praisestats').innerHTML = stats.praiseCount;
+			document.getElementById('donatedstats').innerHTML = (stats.offeringsAmount/1e18).toFixed(2);
+			document.getElementById('sentstats').innerHTML = (stats.praisedAmount/1e18).toFixed(2);
     }
 
     async function checkAllowance(){
